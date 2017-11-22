@@ -2,9 +2,12 @@ package br.com.fabio.drogaria.dao;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
+import javax.persistence.Id;
+
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 
 import br.com.fabio.drogaria.util.HibernateUtil;
 
@@ -12,6 +15,7 @@ public class GenericDAO<Entidade> {
 	private Class<Entidade> classe;
 	
 	public GenericDAO() {
+		
 		this.classe = (Class<Entidade>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}
 	public void salvar(Entidade entidade) {
@@ -36,6 +40,20 @@ public class GenericDAO<Entidade> {
 		try {
 			Criteria consulta = sessao.createCriteria(classe);
 			List <Entidade> resultado = consulta.list();
+			return resultado;
+		}catch (RuntimeException erro) {
+			throw erro;
+		}finally {
+			sessao.close();
+		}
+	}
+	@SuppressWarnings("unchecked")
+	public Entidade buscar(Long codigo){
+		Session sessao = HibernateUtil.getFabricaDeSessoes().openSession();
+		try {
+			Criteria consulta = sessao.createCriteria(classe);
+			consulta.add(Restrictions.idEq(codigo));
+			Entidade resultado =(Entidade) consulta.uniqueResult();
 			return resultado;
 		}catch (RuntimeException erro) {
 			throw erro;

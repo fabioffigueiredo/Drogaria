@@ -13,8 +13,8 @@ public class EstadoDAOTest {
 	@Ignore
 	public void salvar() {
 		Estado estado = new Estado();
-		estado.setNome("São Paulo");
-		estado.setSigla("SP");
+		estado.setNome("Minas Gerais");
+		estado.setSigla("MG");
 		EstadoDAO estadoDAO = new EstadoDAO();
 		estadoDAO.salvar(estado);
 	}
@@ -31,6 +31,7 @@ public class EstadoDAOTest {
 		}
 	}
 	@Test
+	@Ignore
 	public void buscar() {
 		Long codigo = 1L;
 		EstadoDAO estadoDAO = new EstadoDAO();
@@ -41,7 +42,19 @@ public class EstadoDAOTest {
 			System.out.println("Registro encontrado: ");
 			System.out.println(estado.getCodigo()+" - "+ estado.getSigla() + " - "+ estado.getNome());
 		}
-		
+		}
+	@Test
+	public void excluir() {
+		Long codigo = 5L;
+		EstadoDAO estadoDAO = new EstadoDAO();
+		Estado estado = estadoDAO.buscar(codigo);
+		if(estado == null) {
+			System.out.println("Nenhum registro encontrado");
+		}else {
+			estadoDAO.excLuir(estado);
+			System.out.println("Registro removido: ");
+			System.out.println(estado.getCodigo()+" - "+ estado.getSigla() + " - "+ estado.getNome());
+		}
 		
 	}
 }

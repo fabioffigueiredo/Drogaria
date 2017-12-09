@@ -25,7 +25,7 @@ public class Pessoa extends GenericDomain {
 	private String cep;
 	@Column(length = 10, nullable = false)
 	private String complemento;
-	@Column(length = 13, nullable = false)
+	@Column(length = 13)
 	private String telefone;
 	@Column(length = 14, nullable = false)
 	private String celular;
